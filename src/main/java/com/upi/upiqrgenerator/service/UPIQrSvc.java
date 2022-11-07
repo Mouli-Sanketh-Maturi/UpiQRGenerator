@@ -1,11 +1,12 @@
 package com.upi.upiqrgenerator.service;
 
+import com.upi.upiqrgenerator.model.UPIParameters;
 import reactor.core.publisher.Mono;
 
 import java.awt.image.BufferedImage;
 
 public interface UPIQrSvc {
 
-    public Mono<BufferedImage> getUPIQrCode(String name, String vpa) throws Exception;
+    public Mono<BufferedImage> getUPIQrCode(UPIParameters upi) throws Exception;
 
 }

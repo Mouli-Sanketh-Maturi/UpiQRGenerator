@@ -1,6 +1,8 @@
 package com.upi.upiqrgenerator.rest;
 
+import com.upi.upiqrgenerator.model.UPIParameters;
 import com.upi.upiqrgenerator.service.UPIQrSvc;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
@@ -25,17 +27,13 @@ public class UPIQrController implements UPIQrAPI{
         this.upiQrSvc = upiQrSvc;
     }
 
+    @SneakyThrows
     @GetMapping("/upi")
     @Override
     public Mono<ResponseEntity<BufferedImage>> getQrCode(@RequestParam("name") String name, @RequestParam("vpa") String vpa) {
-
-        try {
-             return upiQrSvc.getUPIQrCode(name,vpa)
+             return upiQrSvc.getUPIQrCode(new UPIParameters(vpa,name))
                      .map(bufferedImage ->
                              ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(bufferedImage));
-        } catch (Exception e) {
-            return Mono.just(new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR));
-        }
     }
 
     @Bean
